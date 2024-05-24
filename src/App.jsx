@@ -5,7 +5,7 @@ import Header from './components/Header'
 import Main from './components/Main'
 
 function App() {
-  const [newsList, setNewsList] = useState(news)
+  const [newsList, setNewsList] = useState([])
 
   const [hiddenNews, setHiddenNews] = useState(() => {
     const storedHiddenNews = localStorage.getItem('hiddenNews') || '[]';
@@ -15,6 +15,12 @@ function App() {
   useEffect(() => {
     localStorage.setItem('hiddenNews', JSON.stringify(hiddenNews))
   }, [hiddenNews])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setNewsList(news)
+    }, 4000) // Fake delay to show loader
+  }, [])
   
   const handleSearch = (e) => {
     e.preventDefault();
