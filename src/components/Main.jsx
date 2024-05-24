@@ -22,7 +22,7 @@ const Main = ({ news, hiddenNews, setHiddenNews }) => {
                 {showHidden === 0 ? "Unhidden" : showHidden === 1 ? 'Hidden' : 'All'} news
             </h3>
             <InfoLine news={news} hiddenNews={hiddenNews} showHidden={showHidden} setShowHidden={setShowHidden} />
-            <ul className="my-4 bg-white shadow rounded-lg divide-y divide-gray-200">
+            <ul className="my-4 bg-white shadow rounded-lg divide-y divide-gray-200 overflow-hidden">
                 {news?.map(addHiddenKey).filter(filterHidden).map((n, i) => (
                     <NewsItem news={n} i={i} key={n.objectID} setHiddenNews={setHiddenNews} />
                 ))}          

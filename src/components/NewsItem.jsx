@@ -10,7 +10,8 @@ const newsItem = ({ news, i, setHiddenNews }) => {
     }
     
     return (
-        <li className="px-2 py-4 grid grid-cols-[2rem_1fr] gap-4">
+        <li className={`px-2 py-4 grid grid-cols-[2rem_1fr] gap-4 ${news.hidden ? 'bg-gray-300' : null}`
+}>
             <div className="grid place-content-center text-lg font-semibold">{i + 1}</div>
             <div className="">
                 <div className="flex gap-4 justify-between items-baseline">
