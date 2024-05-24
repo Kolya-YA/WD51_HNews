@@ -1,5 +1,20 @@
-const newsItem = ({ news, i, setHiddenNews }) => {
+import { useEffect, useState } from "react"
+
+const NewsItem = ({ news, i, setHiddenNews }) => {
     const srcURL = news.url && new URL(news.url)
+
+    const [newsAge, setNewsAge] = useState('XX time')
+
+    useEffect(() => {
+        const age = new Date().getTime() - new Date(news.created_at).getTime()
+        if (age < 60 * 60 * 1000) {
+            setNewsAge(`${Math.round(age / (60 * 1000))} min`)
+        } else if (age < 24 * 60 * 60 * 1000) {
+            setNewsAge(`${Math.round(age / (60 * 60 * 1000))} hours`)
+        } else {
+            setNewsAge(`${Math.round(age / (24 * 60 * 60 * 1000))} days`)
+        }
+    }, [])
 
     const handleHideBtn = () => {
         if (news.hidden) {
@@ -19,7 +34,7 @@ const newsItem = ({ news, i, setHiddenNews }) => {
                 {srcURL?.hostname && <a href={srcURL.hostname} className="text-sm text-gray-500  hover:text-orange-500 hover:underline">({srcURL.hostname})</a>}
                 </div>
                 <div className="mt-1 text-sm text-gray-500 flex gap-4">
-                    <span>{news.points} points by {news.author} XXX hours ago</span>
+                    <span><span className="font-semibold">{news.points}</span> points by <span className="italic">{news.author}</span> <span className="font-semibold">{ newsAge } ago</span></span>
                     <button onClick={handleHideBtn} data-id={news.objectID} className="hover:text-orange-500 hover:underline">{news.hidden ? 'un' : ''}hide</button>
                     <a onClick={ () => confirm('For VIP clients only.\nReady to subscribe?') } className="hover:text-orange-500 hover:underline">{news.num_comments ? `${news.num_comments} comments` : 'discuss'}</a>
                 </div>
@@ -28,4 +43,4 @@ const newsItem = ({ news, i, setHiddenNews }) => {
     )
 }
 
-export default newsItem
+export default NewsItem
