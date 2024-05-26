@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Paginator from "./Paginator";
+import Pagination from "./Pagination";
 import NewsItem from "./NewsItem";
 import InfoLine from "./InfoLine";
 import Loader from "./Loader";
@@ -21,7 +21,7 @@ const Main = ({ news, hiddenNews, setHiddenNews }) => {
             { news.length === 0
                 ? <Loader msg='Loading...' />
                 : <>
-                    <Paginator />
+                    <Pagination />
                     <h3 className="my-4 px-4 text-xl font-semibold text-gray-600">
                         {showHidden === 0 ? "Unhidden" : showHidden === 1 ? 'Hidden' : 'All'} news
                     </h3>
@@ -32,7 +32,7 @@ const Main = ({ news, hiddenNews, setHiddenNews }) => {
                             <NewsItem news={n} i={i} key={n.objectID} setHiddenNews={setHiddenNews} />
                         ))}          
                     </ul>
-                    <Paginator />
+                    <Pagination />
                 </>
             }
         </main>
