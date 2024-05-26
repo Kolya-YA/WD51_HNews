@@ -14,6 +14,15 @@ const Main = ({ news, hiddenNews, setHiddenNews }) => {
         if (showHidden === 1 && n.hidden) return n
         if (showHidden === 2) return n
     }
+    //<- paginaion
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalItems = 97;
+    const itemsPerPage = 10;
+  
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+    // paginnaion ->
 
     return (
         <main className="container mx-auto p-4">
@@ -21,7 +30,10 @@ const Main = ({ news, hiddenNews, setHiddenNews }) => {
             { news.length === 0
                 ? <Loader msg='Loading...' />
                 : <>
-                    <Pagination />
+                    <Pagination totalItems={totalItems}
+                                itemsPerPage={itemsPerPage}
+                                currentPage={currentPage}
+                                onPageChange={handlePageChange}/>
                     <h3 className="my-4 px-4 text-xl font-semibold text-gray-600">
                         {showHidden === 0 ? "Unhidden" : showHidden === 1 ? 'Hidden' : 'All'} news
                     </h3>
@@ -32,7 +44,6 @@ const Main = ({ news, hiddenNews, setHiddenNews }) => {
                             <NewsItem news={n} i={i} key={n.objectID} setHiddenNews={setHiddenNews} />
                         ))}          
                     </ul>
-                    <Pagination />
                 </>
             }
         </main>
