@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
-import { hits as news } from './data/hnews.json'
-import Footer from './components/Footer'
-import Header from './components/Header'
-import Main from './components/Main'
+import { useEffect, useState } from "react";
+import { hits as news } from "./data/hnews.json";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Main from "./components/Main";
 
 function App() {
   const [newsList, setNewsList] = useState([])
   const [articles, setArticles] = useState([]);
   const [query, setQuery] = useState('react');
 
-
-  const [hiddenNews, setHiddenNews] = useState(() => {
-    const storedHiddenNews = localStorage.getItem('hiddenNews') || '[]';
-    return JSON.parse(storedHiddenNews);
-  })
+  //const [searchNews, setSearchNews] = useState("");
+  //=> {
+  // const storedHiddenNews = localStorage.getItem("hiddenNews") || "[]";
+  // return JSON.parse(storedHiddenNews);
+  //});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,13 +36,12 @@ function App() {
     localStorage.setItem('hiddenNews', JSON.stringify(hiddenNews))
   }, [hiddenNews])
 
-  
   const handleSearch = (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     // const search = e.target.search.value;
-    setNewsList(n => n)
-   }
-  
+    setNewsList((n) => n);
+  };
+
   return (
     <>
      {/* <div>
@@ -64,10 +63,16 @@ function App() {
       </ul>
     </div> */}
       <Header handleSearch={handleSearch} />
-      <Main news={newsList} hiddenNews={hiddenNews} setHiddenNews={setHiddenNews} />
+
+      <Main
+        news={newsList}
+        hiddenNews={hiddenNews}
+        setHiddenNews={setHiddenNews}
+      />
+
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
