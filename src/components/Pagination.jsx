@@ -1,5 +1,4 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
-import { useState } from 'react';
 
 const Pagination = ({ totalItems, itemsPerPage, currentPage, onPageChange }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -40,7 +39,7 @@ const Pagination = ({ totalItems, itemsPerPage, currentPage, onPageChange }) => 
   };
 
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between gap-4 shadow rounded-lg bg-white my-4 px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
         <a
           href="#"
