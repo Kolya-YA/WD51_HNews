@@ -5,36 +5,36 @@ import Header from "./components/Header";
 import Main from "./components/Main";
 
 function App() {
-  const [newsList, setNewsList] = useState([]);
-  const [hiddenNews, setHiddenNews] = useState("React");
-  //const [searchNews, setSearchNews] = useState("");
+  const [newsList, setNewsList] = useState([])
+  const [articles, setArticles] = useState([]);
+  const [query, setQuery] = useState('react');
 
+  //const [searchNews, setSearchNews] = useState("");
   //=> {
   // const storedHiddenNews = localStorage.getItem("hiddenNews") || "[]";
   // return JSON.parse(storedHiddenNews);
   //});
 
   useEffect(() => {
-    const fetchNewsList = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://hn.algolia.com/api/v1/search?query=${hiddenNews}`
-        );
-        const data = await response.json();
-        setNewsList(data.hits);
+        const response = await fetch(`http://hn.algolia.com/api/v1/search?query=${query}`);
+        const result = await response.json();
+
+        setTimeout(() => {
+          setNewsList(result.hits)
+        }, 3000) // Fake delay to show loader
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching the data', error);
       }
     };
 
-    fetchNewsList();
-  }, [hiddenNews]);
+    fetchData();
+  }, [query]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setNewsList(news);
-    }, 4000); // Fake delay to show loader
-  }, []);
+    localStorage.setItem('hiddenNews', JSON.stringify(hiddenNews))
+  }, [hiddenNews])
 
   const handleSearch = (e) => {
     //e.preventDefault();
@@ -44,6 +44,24 @@ function App() {
 
   return (
     <>
+     {/* <div>
+      <h1>Hacker News Search</h1>
+      <input 
+        type="text" 
+        value={query} 
+        onChange={(e) => setQuery(e.target.value)} 
+        placeholder="Search..." 
+      />
+      <ul>
+        {articles.map(article => (
+          <li key={article.objectID}>
+            <a href={article.url} target="_blank" rel="noopener noreferrer">
+              {article.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div> */}
       <Header handleSearch={handleSearch} />
 
       <Main
