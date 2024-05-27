@@ -6,6 +6,9 @@ import Main from './components/Main'
 
 function App() {
   const [newsList, setNewsList] = useState([])
+  const [articles, setArticles] = useState([]);
+  const [query, setQuery] = useState('react');
+
 
   const [hiddenNews, setHiddenNews] = useState(() => {
     const storedHiddenNews = localStorage.getItem('hiddenNews') || '[]';
@@ -13,14 +16,26 @@ function App() {
   })
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://hn.algolia.com/api/v1/search?query=${query}`);
+        const result = await response.json();
+
+        setTimeout(() => {
+          setNewsList(result.hits)
+        }, 3000) // Fake delay to show loader
+      } catch (error) {
+        console.error('Error fetching the data', error);
+      }
+    };
+
+    fetchData();
+  }, [query]);
+
+  useEffect(() => {
     localStorage.setItem('hiddenNews', JSON.stringify(hiddenNews))
   }, [hiddenNews])
 
-  useEffect(() => {
-    setTimeout(() => {
-      setNewsList(news)
-    }, 4000) // Fake delay to show loader
-  }, [])
   
   const handleSearch = (e) => {
     e.preventDefault();
@@ -30,6 +45,24 @@ function App() {
   
   return (
     <>
+     {/* <div>
+      <h1>Hacker News Search</h1>
+      <input 
+        type="text" 
+        value={query} 
+        onChange={(e) => setQuery(e.target.value)} 
+        placeholder="Search..." 
+      />
+      <ul>
+        {articles.map(article => (
+          <li key={article.objectID}>
+            <a href={article.url} target="_blank" rel="noopener noreferrer">
+              {article.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div> */}
       <Header handleSearch={handleSearch} />
       <Main news={newsList} hiddenNews={hiddenNews} setHiddenNews={setHiddenNews} />
       <Footer />
